@@ -1,0 +1,71 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { SupabaseService } from 'src/app/services/supabase.service';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
+})
+export class LoginPage implements OnInit {
+  credenciales: FormGroup;
+
+  constructor(
+    private supabaseService: SupabaseService,
+    private router:Router,
+    private fb: FormBuilder,
+    private alertController: AlertController,
+    private loadingController: LoadingController,
+    ) { }
+
+
+  ngOnInit() {
+      this.credenciales = this.fb.group({
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]]
+      });
+  }
+
+  async login(){
+    const loading = await this.loadingController.create();
+    await loading.present();
+    
+    this.supabaseService.ingresarUsuario(this.credenciales.value).then(async data => {
+      await loading.dismiss();
+      this.router.navigateByUrl('/list', {replaceUrl:true}); // donde va luego de ingresar.
+    },async err => { 
+      await loading.dismiss();
+      this.showError('Carga Fallida',err.message); // msj sino logea bien
+    });
+  }
+
+  async registrarUsuario(){
+    const loading = await this.loadingController.create();
+    await loading.present();
+    
+    this.supabaseService.registrarUsuario(this.credenciales.value).then(async session => {
+      await loading.dismiss();
+      this.showError('Registro Completo', 'Por favor confirme su email ahora');
+    },async err => { 
+      await loading.dismiss();
+      const alert = await this.alertController.create({
+        header:'Registro fallido',
+        message: err.msg,
+        buttons: ['OK']
+      });
+      await alert.present();
+    });
+  }
+
+  async showError(tittle , msg) {
+    const alert = await this.alertController.create({
+      header: tittle,
+      message: msg,
+      buttons :['OK'],
+    })
+    await alert.present();
+  }
+  
+}
