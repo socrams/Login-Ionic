@@ -6,7 +6,7 @@
 
 <ion-content>
   <form (ngSubmit)="login()" [formGroup]="credenciales">
-    <div >
+    <div>
       <ion-item>
         <ion-input placeholder="correo" formControlName="email"></ion-input>
       </ion-item>
@@ -16,8 +16,9 @@
       </div>
 
     <ion-button type="submit" expand="block" [disabled]="!credenciales.valid"> Ingresar </ion-button>
-    <!-- <ion-button type="button" expand="block" (click)="registrarUsuario()" color="secondary"> Registrar </ion-button> -->
-  
+    
   </form>
   <ion-button type="button" expand="block" (click)="registrarUsuario()" color="secondary"> Registrar </ion-button>
 </ion-content>
+
+<!-- <ion-button type="button" expand="block" (click)="registrarUsuario()" color="secondary"> Registrar </ion-button> -->
