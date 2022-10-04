@@ -3,23 +3,26 @@
     <ion-title>Registrar</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <!-- <form [formGroup]="credenciales"> -->
+
+ <form [formGroup]="credenciales2">
     <div class="input-group">
       <ion-item>
-        <ion-input placeholder="correo" formControlName="email"></ion-input>
-      </ion-item>
+        <ion-input placeholder="correo" formControlName="email"></ion-input>      
+      </ion-item>  
       <ion-item>
-        <ion-input type= "password" placeholder="password" formControlName="password"></ion-input>
-      </ion-item>
+        <ion-input type= "password" placeholder="password" formControlName="password"></ion-input>      
+      </ion-item>  
       <ion-item>
-        <ion-input type= "text" placeholder="nombre" formControlName="name"></ion-input>
-      </ion-item>
+        <ion-input type= "text" placeholder="nombre" ></ion-input>   
+      </ion-item>  
       <ion-item>
-        <ion-input type= "text" placeholder="edad" formControlName="age"></ion-input>
-      </ion-item>
-      </div>
-    <ion-button type="button" expand="block" (click)="registrarUsuario()" color="secondary"> Registrar </ion-button>
-  <!-- </form> -->
+          <ion-input type= "text" placeholder="edad" ></ion-input>
+      </ion-item>  
+      <ion-item>
+        <ion-button type="button" expand="block" (click)="registrarUsuario()" color="secondary"> Registrar </ion-button>
+      </ion-item> 
+      </div> 
+  </form>
 </ion-content>
+ 

@@ -42,22 +42,23 @@ export class LoginPage implements OnInit {
   }
 
   async registrarUsuario(){
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.router.navigateByUrl('/registrar', {replaceUrl:true})
+  //   const loading = await this.loadingController.create();
+  //   await loading.present();
     
-    this.supabaseService.registrarUsuario(this.credenciales.value).then(async session => {
-      await loading.dismiss();
-      this.showError('Registro Completo', 'Por favor confirme su email ahora');
-    },async err => { 
-      await loading.dismiss();
-      const alert = await this.alertController.create({
-        header:'Registro fallido',
-        message: err.msg,
-        buttons: ['OK']
-      });
-      await alert.present();
-    });
-  }
+  //   this.supabaseService.registrarUsuario(this.credenciales.value).then(async session => {
+  //     await loading.dismiss();
+  //     this.showError('Registro Completo', 'Por favor confirme su email ahora');
+  //   },async err => { 
+  //     await loading.dismiss();
+  //     const alert = await this.alertController.create({
+  //       header:'Registro fallido',
+  //       message: err.msg,
+  //       buttons: ['OK']
+  //     });
+  //     await alert.present();
+  //   });
+   }
 
   async showError(tittle , msg) {
     const alert = await this.alertController.create({
