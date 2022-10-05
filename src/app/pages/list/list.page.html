@@ -3,8 +3,7 @@
     <ion-title>Lista</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="singOut()">
-        <ion-icon slot="icon-only" name="log-out"></ion-icon>
-        LogOut
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>        
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -25,17 +24,41 @@
           <ion-icon name="trash" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-  
       <ion-item-options side="start">
-        <ion-item-option (click)="toggleDone(todo)" [color]="todo.is_complete ? 'warning':'success'"></ion-item-option>
-        <ion-icon [name]="todo.is_complete ? 'close' : 'checkmark'" slot="icon-only"></ion-icon>
+        <ion-item-option (click)="toggleDone(todo)" [color]="todo.is_complete ? 'warning':'success'">
+        <ion-icon [name]="todo.is_complete ? 'close' : 'checkmark'" slot="icon-only"></ion-icon></ion-item-option>
       </ion-item-options>
     </ion-item-sliding> 
   </ion-list> 
 </ion-list>
+<ion-tabs>
+  <!-- Tab bar cambiar***-->
+  <ion-tab-bar slot="bottom">
+    <!-- <ion-tab-button tab="schedule">
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Schedule</ion-label>
+    </ion-tab-button> -->
+
+    <ion-tab-button tab="speakers">
+      <ion-icon name="person-circle"></ion-icon>
+      <ion-label>Speakers</ion-label>
+    </ion-tab-button>
+<!-- 
+    <ion-tab-button tab="map">
+      <ion-icon name="map"></ion-icon>
+      <ion-label>Map</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="about">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label>About</ion-label>
+    </ion-tab-button> -->
+  </ion-tab-bar>
+</ion-tabs>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <!-- <ion-fab-button (click)="createTodo()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button> -->
+    <ion-fab-button (click)="createTodo()">
+          <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 </ion-content>

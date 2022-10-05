@@ -4,19 +4,6 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { SupabaseService } from 'src/app/services/supabase.service';
 
-// export class Usuario {
-//   nombre:   String = "";
-//   apellido: String = "";
-//   usuario:  String = "";
-//   pass:     String = "";
-//   puntaje1: number = 0;
-//   puntaje2: number = 0;
-//   puntaje3: number = 0;
-//   premium: boolean = false;
-//   puntaje4: number = 0;
-//   age: number =0;
-// }
-
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.page.html',
@@ -30,7 +17,7 @@ export class RegistrarPage implements OnInit {
     private supabaseService: SupabaseService,
     private alertController: AlertController,
     private fb: FormBuilder,
-   
+
     // public usuario: Usuario,
 
     ) { }

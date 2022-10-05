@@ -33,13 +33,14 @@ export class SupabaseService {
     this.supabase.auth.onAuthStateChange(( event,session )=>{
       // console.log('event ',event);
       console.log('session: ', session);
-      
+  
+    
 
 
       if (event == 'SIGNED_IN'){
         this._currentUser.next(session.user);
-        this.loadTodos();
-        this.handleTodosChanged();
+        this.loadTodos();//carga basede datoss
+        this.handleTodosChanged(); //
       }else{
         this._currentUser.next(false);
       }
@@ -82,6 +83,7 @@ export class SupabaseService {
   }
 
   async loadTodos(){
+    
     const query = await this.supabase.from(TODO_DB).select('*');
     console.log('query: ', query);
     this._todos.next(query.data);
@@ -89,23 +91,47 @@ export class SupabaseService {
 
   async addTodo(task: string){
     const newTodo = {
-      user_id: this.supabase.auth.user().identities,
+      user_id: this.supabase.auth.user().id,
       task
     };
-    const result = await this.supabase.from(TODO_DB).insert(newTodo);
+    const result = await this.supabase.from(TODO_DB).insert(newTodo); 
   }
 
-   handleTodosChanged(){}
-  //   this.supabase.from(TODO_DB).on('*', payload => {
-  //     console.log('payload: ', payload);
-  //     if ( payload.eventType == 'DELETE'){ 
-  //       const oldItem: Todo = payload.old;
-  //       const newValue = this.
-  //     }else if (payload.eventType == 'INSERT'){
-  //       const o
-  //     }else if (payload.eventType == 'UPDATE'){  
-      
-  //     }
-  //   }).subscribe();
-  // }
-}
+  async removeTodo(id){
+    await this.supabase
+    .from(TODO_DB)
+    .delete()
+    .match({id});
+  }
+
+  async updateTodo(id, is_complete){
+    await this.supabase
+    .from(TODO_DB)
+    .update({is_complete})
+    .match({id});
+  }
+
+  handleTodosChanged(){
+    this.supabase.from(TODO_DB).on('*', payload => {
+      console.log('payload: ', payload);
+      if ( payload.eventType == 'DELETE'){ 
+        const oldItem: Todo = payload.old;
+        const newValue = this._todos.value.filter(item => oldItem.id != item.id);
+        this._todos.next(newValue);
+      }else if (payload.eventType == 'INSERT'){
+        const newItem: Todo = payload.new;
+        this._todos.next([...this._todos.value, newItem]);
+      }else if (payload.eventType == 'UPDATE'){  
+        const updatedItem: Todo = payload.new;
+        const newValue = this._todos.value.map(item => {
+          if (updatedItem.id == item.id){
+            item = updatedItem; 
+          }
+          return item;
+        })
+        this._todos.next(newValue);
+      }
+    }).subscribe();
+    }
+  
+  }
