@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 const TODO_DB = 'todos';
 
 export interface Todo{
-  id:number;
+  id: number;
   inserted_at: string;
   is_complete: boolean;
   task: string;
@@ -24,19 +24,17 @@ export class SupabaseService {
   private _currentUser: BehaviorSubject<any> = new BehaviorSubject (null);
   private _todos: BehaviorSubject<any> = new BehaviorSubject ([]);
 
-  constructor(public router:Router) { 
+  constructor(public router:Router) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey,{
       autoRefreshToken: true,
-      persistSession:true, 
-    });    
+      persistSession:true,
+    });
 
     this.supabase.auth.onAuthStateChange(( event,session )=>{
       // console.log('event ',event);
       console.log('session: ', session);
-  
-    
 
-
+      
       if (event == 'SIGNED_IN'){
         this._currentUser.next(session.user);
         this.loadTodos();//carga basede datoss
@@ -46,7 +44,7 @@ export class SupabaseService {
       }
     });
   }
-  
+
   async salirUsuario(){
     await  this.supabase.auth.signOut();
 
@@ -59,7 +57,7 @@ export class SupabaseService {
 
     return new Promise ( async (resolve, reject) => {
       const { error, session } = await this.supabase.auth.signUp(credenciales)
-      if ( error ) { 
+      if ( error ) {
         reject ( error );
       }else{
         resolve ( session );
@@ -70,12 +68,12 @@ export class SupabaseService {
   ingresarUsuario(credenciales: { email, password } ) {
     return new Promise ( async (resolve, reject) => {
       const { error, session } = await this.supabase.auth.signIn(credenciales)
-      if ( error ) { 
+      if ( error ) {
         reject ( error );
       }else{
         resolve ( session );
       }
-    });  
+    });
   }
 
   get todos(): Observable <Todo[] > {
@@ -83,7 +81,7 @@ export class SupabaseService {
   }
 
   async loadTodos(){
-    
+
     const query = await this.supabase.from(TODO_DB).select('*');
     console.log('query: ', query);
     this._todos.next(query.data);
@@ -94,7 +92,7 @@ export class SupabaseService {
       user_id: this.supabase.auth.user().id,
       task
     };
-    const result = await this.supabase.from(TODO_DB).insert(newTodo); 
+    const result = await this.supabase.from(TODO_DB).insert(newTodo);
   }
 
   async removeTodo(id){
@@ -114,18 +112,18 @@ export class SupabaseService {
   handleTodosChanged(){
     this.supabase.from(TODO_DB).on('*', payload => {
       console.log('payload: ', payload);
-      if ( payload.eventType == 'DELETE'){ 
+      if ( payload.eventType == 'DELETE'){
         const oldItem: Todo = payload.old;
         const newValue = this._todos.value.filter(item => oldItem.id != item.id);
         this._todos.next(newValue);
       }else if (payload.eventType == 'INSERT'){
         const newItem: Todo = payload.new;
         this._todos.next([...this._todos.value, newItem]);
-      }else if (payload.eventType == 'UPDATE'){  
+      }else if (payload.eventType == 'UPDATE'){
         const updatedItem: Todo = payload.new;
         const newValue = this._todos.value.map(item => {
           if (updatedItem.id == item.id){
-            item = updatedItem; 
+            item = updatedItem;
           }
           return item;
         })
@@ -133,5 +131,5 @@ export class SupabaseService {
       }
     }).subscribe();
     }
-  
+
   }
