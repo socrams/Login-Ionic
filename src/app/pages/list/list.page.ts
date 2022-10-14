@@ -49,6 +49,7 @@ export class ListPage implements OnInit {
   singOut(){
     this.supabaseService.salirUsuario();
   }
+  
   delete(item:Todo){
     this.supabaseService.removeTodo(item.id);
   }

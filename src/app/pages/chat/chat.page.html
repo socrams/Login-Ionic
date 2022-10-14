@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>chat</ion-title>
   </ion-toolbar>
@@ -6,4 +6,32 @@
 
 <ion-content>
 
-</ion-content>
+</ion-content> -->
+
+<body>
+  <div id="wrapper">
+      <div id="menu">
+          <p class="welcome"><i class='fa fa-commenting-o'></i><b></b></p>
+      </div>
+
+      <div id="chatbox">
+
+          
+          <div class="Izquierda">
+
+          </div>
+          <div class="derecha">
+              <tr *ngFor="let data of ArrayComentarios">
+                  <td >{{data}}</td>
+              </tr>
+          </div>
+          
+      </div>
+
+      <form name="message" action="">
+          <input name="usermsg" type="text" id="usermsg" [(ngModel)]='comentarios' autocomplete="off" />
+          <button ng (click)="insertarNew()" ng (click)="limpiar()" class="btn btn-primary" >Enviar<i class='fa fa-send'></i></button>
+          
+
+      </form>
+

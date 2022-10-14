@@ -14,7 +14,7 @@ export class LoginPage implements OnInit {
 
   constructor(
     private supabaseService: SupabaseService,
-    private router:Router,
+    private router: Router,
     private fb: FormBuilder,
     private alertController: AlertController,
     private loadingController: LoadingController,
@@ -32,8 +32,10 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     
-    this.supabaseService.ingresarUsuario(this.credenciales.value).then(async data => {
+    this.supabaseService.ingresarUsuario(this.credenciales.value)
+    .then(async data => {
       await loading.dismiss();
+
       this.router.navigateByUrl('/list', {replaceUrl:true}); // donde va luego de ingresar.
     },async err => { 
       await loading.dismiss();
@@ -54,4 +56,10 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
   
+  get email(){
+    return this.credenciales.value.get('email');
+  }
+  addChatMessage(msg){
+    return ;
+  }
 }
