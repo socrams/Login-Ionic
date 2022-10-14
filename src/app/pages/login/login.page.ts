@@ -41,9 +41,9 @@ export class LoginPage implements OnInit {
     });
   }
 
-  async registrarUsuario(){
+  registrarUsuario(){
     this.router.navigateByUrl('/registrar', {replaceUrl:true})
-   }
+  }
 
   async showError(tittle , msg) {
     const alert = await this.alertController.create({

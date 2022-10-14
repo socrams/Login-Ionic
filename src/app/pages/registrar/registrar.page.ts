@@ -13,6 +13,7 @@ export class RegistrarPage implements OnInit {
   credenciales2: FormGroup;
   
   constructor(
+    public router:Router,
     private loadingController: LoadingController,
     private supabaseService: SupabaseService,
     private alertController: AlertController,
@@ -63,4 +64,7 @@ export class RegistrarPage implements OnInit {
     await alert.present();
   }
 
+  goLogin(){
+    this.router.navigateByUrl('/', {replaceUrl:true})
+  }
 }

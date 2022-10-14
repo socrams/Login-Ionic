@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button ></ion-back-button>
     </ion-buttons>
     <ion-title>Registro</ion-title>
   </ion-toolbar>
@@ -22,8 +22,9 @@
           <ion-input type="number" placeholder="edad" formControlName="age"> </ion-input>
       </ion-item>  
         <ion-button type="button" expand="block" (click)="registrarUsuario()" color="secondary"> Registrar </ion-button>
-        <ion-button (click)="mostrar()" expand="block" fill="clear" shape="round">Click me</ion-button>
+        
+        <!-- <ion-button (click)="mostrar()" expand="block" fill="clear" shape="round">Click me</ion-button> -->
       </div> 
   </form>
+  <ion-button type="button" expand="block" (click)="goLogin()" color="secondary"> back login </ion-button>
 </ion-content>
- 
