@@ -63,7 +63,6 @@ export class ChatPage implements OnInit {
       this.llamadaUser = elemento.nombreUser;
     })
   }
-
 }
 
 

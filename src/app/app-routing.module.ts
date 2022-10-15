@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'chat',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   },
+  {
+    path: 'chat1',
+    loadChildren: () => import('./pages/chat1/chat1.module').then( m => m.Chat1PageModule)
+  },
 
   
   // {

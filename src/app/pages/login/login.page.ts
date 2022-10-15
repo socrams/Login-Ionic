@@ -36,11 +36,11 @@ export class LoginPage implements OnInit {
     .then(async data => {
       await loading.dismiss();
 
-      this.router.navigateByUrl('/list', {replaceUrl:true}); // donde va luego de ingresar.
+      this.router.navigateByUrl('/list', {replaceUrl:true});
     },async err => { 
       await loading.dismiss();
-      this.showError('Carga Fallida',err.message); // msj sino logea bien
-    });
+      this.showError('Carga Fallida',err.message);
+    });|
   }
 
   registrarUsuario(){
@@ -59,7 +59,13 @@ export class LoginPage implements OnInit {
   get email(){
     return this.credenciales.value.get('email');
   }
-  addChatMessage(msg){
-    return ;
+
+  get password(){
+    return this.credenciales.value.get('passoword');
   }
+ 
+  
+ 
+  
+
 }

@@ -1,27 +1,13 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { environment } from 'src/environments/environment';
-
-export interface User {
-  uid: string;
-  email: string;
-}
-
-export interface Message {
-  createdAt: string;
-  id: string;
-  from: string;
-  msg: string;
-  formName: string;
-  myMsg: boolean;
-}
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  currentUser: User;
 
-  constructor() {
+
+  constructor( private afs: AngularFirestore) { 
   }
 }

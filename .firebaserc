@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "beltran-ionic": {
+      "hosting": {
+        "app": [
+          "beltran-ionic"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "beltran-ionic"
+  }
+}
