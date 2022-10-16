@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 const TODO_DB = 'todos';
+const CHAT_DB = 'chat';
 
 export interface Todo{
   id: number;
@@ -13,6 +14,13 @@ export interface Todo{
   is_complete: boolean;
   task: string;
   user_id: string;
+}
+
+export interface Chat {
+  id: number;
+  created_at: string;
+  user: string;
+  message: string;
 }
 
 @Injectable({
@@ -23,6 +31,7 @@ export class SupabaseService {
   supabase:SupabaseClient;
   private _currentUser: BehaviorSubject<any> = new BehaviorSubject (null);
   private _todos: BehaviorSubject<any> = new BehaviorSubject ([]);
+  private _chat: BehaviorSubject<any> = new BehaviorSubject ([]);
 
   constructor(public router:Router) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey,{
@@ -80,11 +89,20 @@ export class SupabaseService {
     return this._todos.asObservable();
   }
 
+  get chat(): Observable <Chat[] > {
+    return this._chat.asObservable();
+  }
+  
   async loadTodos(){
-
     const query = await this.supabase.from(TODO_DB).select('*');
     console.log('query: ', query);
     this._todos.next(query.data);
+  }
+
+  async cargarMsg(){
+    const query = await this.supabase.from(CHAT_DB).select('*');
+    console.log('query: ', query);
+    this._chat.next(query.data);
   }
 
   async addTodo(task: string){
@@ -92,7 +110,30 @@ export class SupabaseService {
       user_id: this.supabase.auth.user().id,
       task
     };
-    const result = await this.supabase.from(TODO_DB).insert(newTodo);
+  //  console.log(newTodo);
+    
+    const result = await this.supabase
+    .from(TODO_DB)
+    .insert(newTodo);
+  }
+
+  async addMessage(message: string){
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey,{
+      autoRefreshToken: true,
+      persistSession:true,
+    });
+    const  newChat = {
+      user : this.supabase.auth.user().email,
+      message,
+      
+    };
+//    console.log(newChat, 'newspa', this.supabase);
+    const result = await this.supabase
+    .from(CHAT_DB)
+    .insert(
+      //[{id: newChat.id, message: newChat.message}]
+      newChat
+      );
   }
 
   async removeTodo(id){
@@ -131,5 +172,4 @@ export class SupabaseService {
       }
     }).subscribe();
     }
-
   }

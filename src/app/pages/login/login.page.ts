@@ -40,11 +40,14 @@ export class LoginPage implements OnInit {
     },async err => { 
       await loading.dismiss();
       this.showError('Carga Fallida',err.message);
-    });|
+    });
   }
 
   registrarUsuario(){
     this.router.navigateByUrl('/registrar', {replaceUrl:true})
+  }
+  goChat(){
+    this.router.navigateByUrl('/chat1', {replaceUrl:true})
   }
 
   async showError(tittle , msg) {
