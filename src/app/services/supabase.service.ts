@@ -38,12 +38,9 @@ export class SupabaseService {
       autoRefreshToken: true,
       persistSession:true,
     });
-
     this.supabase.auth.onAuthStateChange(( event,session )=>{
       // console.log('event ',event);
       console.log('session: ', session);
-
-      
       if (event == 'SIGNED_IN'){
         this._currentUser.next(session.user);
         this.loadTodos();//carga basede datoss
@@ -93,47 +90,35 @@ export class SupabaseService {
     return this._chat.asObservable();
   }
   
-  async loadTodos(){
-    const query = await this.supabase.from(TODO_DB).select('*');
-    console.log('query: ', query);
-    this._todos.next(query.data);
-  }
-
+  
   async cargarMsg(){
     const query = await this.supabase.from(CHAT_DB).select('*');
     console.log('query: ', query);
     this._chat.next(query.data);
   }
 
-  async addTodo(task: string){
-    const newTodo = {
-      user_id: this.supabase.auth.user().id,
-      task
-    };
-  //  console.log(newTodo);
-    
-    const result = await this.supabase
-    .from(TODO_DB)
-    .insert(newTodo);
-  }
+  async cargarMessages(){
+    const query = await this.supabase
+    .from(CHAT_DB).select('*');
+        console.log('query: ', query);
+        this._chat.next(query.data);
+      }
 
+      // async addTodo(task: string){
+      //   const newTodo = {
+      //     user_id: this.supabase.auth.user().id,
+      //     task
+      //   };
+      // }
+
+  
   async addMessage(message: string){
-    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey,{
-      autoRefreshToken: true,
-      persistSession:true,
-    });
-    const  newChat = {
-      user : this.supabase.auth.user().email,
-      message,
-      
-    };
-//    console.log(newChat, 'newspa', this.supabase);
-    const result = await this.supabase
+    await this.supabase
     .from(CHAT_DB)
-    .insert(
-      //[{id: newChat.id, message: newChat.message}]
-      newChat
-      );
+    .insert([ {
+      message:message, 
+      user: this.supabase.auth.user().email
+    }]);
   }
 
   async removeTodo(id){
@@ -171,5 +156,20 @@ export class SupabaseService {
         this._todos.next(newValue);
       }
     }).subscribe();
-    }
   }
+//exceptuar.
+
+async loadTodos(){
+  const query = await this.supabase.from(TODO_DB).select('*');
+      console.log('query: ', query);
+      this._todos.next(query.data);
+    }
+    async addTodo(task: string){
+      const newTodo = {
+        user_id: this.supabase.auth.user().id,
+        task
+      };
+    }
+
+
+}

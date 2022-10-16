@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { createClient } from '@supabase/supabase-js';
 import { SupabaseService } from 'src/app/services/supabase.service';
+import { environment } from 'src/environments/environment';
+import { LoginPage } from '../login/login.page';
 
 @Component({
   selector: 'app-chat1',
@@ -8,18 +11,32 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 })
 export class Chat1Page implements OnInit {
 message:string;
-  constructor(
+conversacion : string= '';
+x = new Array;
+constructor(   
     private supabaseService : SupabaseService,
   ) {
-    
   }
- async cargarMsg(){
-await  this.supabaseService.cargarMsg();
- }
-  async enviarMessage(){
+
+//   EscucharChat(): void{
+//   const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+//   const user = supabase.auth.user();
+// const mySubscription = supabase
+// .from('menssages')
+// .on('*', async payload => {
+//   this.conversacion = payload.new.menssages;
+//   console.log(payload)
+// //await this.obtener(payload.new.user);
+//   supabase.auth.user()?.email + ":" + this.conversacion;
+// })
+// .subscribe()
+// const subscriptions = supabase.getSubscriptions()
+//   } 
+  
+async enviarMessage(){
     this.supabaseService.addMessage(this.message);
   }
-  ngOnInit() {
+  ngOnInit():void {
   }
 
 }
