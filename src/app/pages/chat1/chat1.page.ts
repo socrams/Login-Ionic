@@ -13,6 +13,7 @@ export class Chat1Page implements OnInit {
 message:string;
 conversacion : string= '';
 x = new Array;
+chats = this.supabaseService.chat;
 constructor(   
     private supabaseService : SupabaseService,
   ) {

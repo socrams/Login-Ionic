@@ -44,6 +44,7 @@ export class SupabaseService {
       if (event == 'SIGNED_IN'){
         this._currentUser.next(session.user);
         this.loadTodos();//carga basede datoss
+        this.loadChats();
         this.handleTodosChanged(); //
       }else{
         this._currentUser.next(false);
@@ -104,14 +105,8 @@ export class SupabaseService {
         this._chat.next(query.data);
       }
 
-      // async addTodo(task: string){
-      //   const newTodo = {
-      //     user_id: this.supabase.auth.user().id,
-      //     task
-      //   };
-      // }
-
-  
+      
+      
   async addMessage(message: string){
     await this.supabase
     .from(CHAT_DB)
@@ -127,7 +122,7 @@ export class SupabaseService {
     .delete()
     .match({id});
   }
-
+  
   async updateTodo(id, is_complete){
     await this.supabase
     .from(TODO_DB)
@@ -157,10 +152,10 @@ export class SupabaseService {
       }
     }).subscribe();
   }
-//exceptuar.
-
-async loadTodos(){
-  const query = await this.supabase.from(TODO_DB).select('*');
+  
+  //exceptuar.
+  async loadTodos(){
+    const query = await this.supabase.from(TODO_DB).select('*');
       console.log('query: ', query);
       this._todos.next(query.data);
     }
@@ -170,6 +165,42 @@ async loadTodos(){
         task
       };
     }
+    async loadChats(){
+      const query = await this.supabase.from(CHAT_DB).select('*');
+        console.log('query: ', query);
+        this._chat.next(query.data);
+      }
+      
+      cambiosChat(){
+        this.supabase.from(CHAT_DB).on('*', payload => {
+          console.log('payload: ', payload);
+          if ( payload.eventType == 'DELETE'){
+            const oldItem: Todo = payload.old;
+            const newValue = this._todos.value.filter(item => oldItem.id != item.id);
+            this._todos.next(newValue);
+          }else if (payload.eventType == 'INSERT'){
+            const newItem: Todo = payload.new;
+            this._todos.next([...this._todos.value, newItem]);
+          }else if (payload.eventType == 'UPDATE'){
+            const updatedItem: Todo = payload.new;
+            const newValue = this._todos.value.map(item => {
+              if (updatedItem.id == item.id){
+                item = updatedItem;
+              }
+              return item;
+            })
+            this._todos.next(newValue);
+          }
+        }).subscribe();
+      }
+      
+  }
+  
 
 
-}
+  // async addTodo(task: string){
+  //   const newTodo = {
+  //     user_id: this.supabase.auth.user().id,
+  //     task
+  //   };
+  // }

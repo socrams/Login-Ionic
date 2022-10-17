@@ -5,28 +5,48 @@
 </ion-header>
 
 <!--  -->
+<!-- 
+  <div ng-repeat="x in xs"  ng-class="{other: message.userId != myId}" class="messages">
+    <div class="message" 
+      ng-class="{'slide-right': hideTime, '': !hideTime}">
+      <span>{{cargarMsg()}}</span>
+      <span>{{}}</span> 
+    </div>
+    <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">
+      {{message}}
+    </div>
+  </div> -->
+
+
 <ion-content class="content-stable">
-
-<div ng-repeat="x in xs" 
-  ng-class="{other: message.userId != myId}" class="messages">
-  <div class="message" 
-    ng-class="{'slide-right': hideTime, '': !hideTime}">
-    <!-- <span>{{cargarMsg()}}</span>-->
-    <span>{{}}</span> 
-  </div>
-
-  <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">
-    {{message}}
-  </div>
-</div>
-
+  <ion-list>
+      <ion-item-sliding *ngFor="let chat of chats | async">
+        <ion-item>
+          <div>
+            <!-- mensaje ida -->
+          <div>
+            <ion-label class="messages">
+              <span class="message">{{chat.user}}: {{chat.message}}</span>
+              <p class="time">{{chat.created_at | date:'short' }}</p>
+            </ion-label>
+          </div>
+          <!-- vuelta -->
+          <div>
+          <ion-label class="messages other">
+            <span class="message slide-right">{{chat.user}}: {{chat.message}}</span>
+            <p>{{chat.created_at | date:'short' }}</p>
+          </ion-label>
+        </div>
+      </div>
+        </ion-item>
+      </ion-item-sliding>
+  </ion-list>
 </ion-content>
 <!-- --- -->
 <ion-footer>
   <ion-item>
     <ion-label></ion-label>
-    <ion-input placeholder="mensaje" 
-    [(ngModel)]="message"></ion-input>
-    <ion-button type="button"(click)="enviarMessage()">Enviar</ion-button>
-  </ion-item>  
+    <ion-input placeholder="mensaje" [(ngModel)]="message"></ion-input>
+    <ion-button type="button" (click)="enviarMessage()">Enviar</ion-button>
+  </ion-item>
 </ion-footer>

@@ -36,7 +36,7 @@ export class LoginPage implements OnInit {
     .then(async data => {
       await loading.dismiss();
 
-      this.router.navigateByUrl('/list', {replaceUrl:true});
+      this.router.navigateByUrl('/chat1', {replaceUrl:true});
     },async err => { 
       await loading.dismiss();
       this.showError('Carga Fallida',err.message);
