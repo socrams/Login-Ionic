@@ -11,6 +11,7 @@ import { LoginPage } from '../login/login.page';
 })
 export class Chat1Page implements OnInit {
 message:string;
+style: string;
 conversacion : string= '';
 x = new Array;
 chats = this.supabaseService.chat;
@@ -27,7 +28,7 @@ constructor(
 // .on('*', async payload => {
 //   this.conversacion = payload.new.menssages;
 //   console.log(payload)
-// //await this.obtener(payload.new.user);
+//await this.obtener(payload.new.user);
 //   supabase.auth.user()?.email + ":" + this.conversacion;
 // })
 // .subscribe()
@@ -40,6 +41,7 @@ async enviarMessage(){
   ngOnInit():void {
   }
 
+  
 }
 /*
 angular.module('ionicApp', ['ionic'])
