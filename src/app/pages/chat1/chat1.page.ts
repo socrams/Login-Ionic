@@ -31,12 +31,9 @@ constructor(
   }
   
   tiempo() {
-    if(this.valor){
-      return;
-    }else{
-      return false;
+    
     }
-  }
+  
 }
 //   const user = supabase.auth.user();
 // const mySubscription = supabase
