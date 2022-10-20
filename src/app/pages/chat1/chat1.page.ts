@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, RealtimeClient } from '@supabase/supabase-js';
 import { SupabaseService } from 'src/app/services/supabase.service';
 import { environment } from 'src/environments/environment';
 
@@ -21,19 +21,20 @@ export class Chat1Page implements OnInit {
     this.supabaseService.addMessage(this.message);
     this.message = '';
   }
-  ngOnInit(){
+  ngOnInit():void{
     this.leerChat();
   }
 
   leerChat() {
     const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
-     supabase.from('chat')
-      .on('*', payload => {
-        console.log('chat: ',payload)
-      })
-      .subscribe()
-      const mysuscrip=supabase.getSubscriptions();
-      
+     const chat = supabase
+  .from('chat')
+  .on('*', payload => {
+    console.log('Change received!', payload)
+  })
+  .subscribe()
+    }
+  }
       // const supabase= this.supabaseService.supabase;
       // const user = supabase.auth.user();
       
@@ -52,8 +53,7 @@ export class Chat1Page implements OnInit {
       })
     .subscribe()
       */
-    }
-}
+
 //   const user = supabase.auth.user();
 // const mySubscription = supabase
 // .from('menssages')
