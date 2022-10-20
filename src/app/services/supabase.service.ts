@@ -5,16 +5,9 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
-const TODO_DB = 'todos';
 const CHAT_DB = 'chat';
 
-export interface Todo{
-  id: number;
-  inserted_at: string;
-  is_complete: boolean;
-  task: string;
-  user_id: string;
-}
+
 
 export interface Chat {
   id: number;
@@ -39,13 +32,10 @@ export class SupabaseService {
       persistSession:true,
     });
     this.supabase.auth.onAuthStateChange(( event,session )=>{
-      // console.log('event ',event);
-      //console.log('session login: ', session);
       if (event == 'SIGNED_IN'){
         this._currentUser.next(session.user);
-        //this.loadTodos();//carga basede datoss
         this.loadChats();
-        this.handleTodosChanged(); //
+        this.cambiosChat();
       }else{
         this._currentUser.next(false);
       }
@@ -83,89 +73,25 @@ export class SupabaseService {
     });
   }
 
-  get todos(): Observable <Todo[] > {
-    return this._todos.asObservable();
-  }
-
   get chat(): Observable <Chat[] > {
     return this._chat.asObservable();
   }
-  
-  
-  // async cargarMsg(){
-  //   const query = await this.supabase.from(CHAT_DB).select('*');
-  //   console.log('query: ', query);
-  //   this._chat.next(query.data);
-  // }
-
-  // async cargarMessages(){
-  //   const query = await this.supabase
-  //   .from(CHAT_DB).select('*');
-  //       console.log('query: ', query);
-  //       this._chat.next(query.data);
-  //     }
-
       
-      
-  async addMessage(message: string){
-    await this.supabase
-    .from(CHAT_DB)
-    .insert( [ {
-      message:message, 
-      user: this.supabase.auth.user().email
-    }]);
-  }
-
-  async removeTodo(id){
-    await this.supabase
-    .from(TODO_DB)
-    .delete()
-    .match({id});
+  async addMessage(msg: string){
+    // await this.supabase
+    // .from('chat')
+    // .insert({
+    //   message:message, 
+    //   user: this.supabase.auth.user().email
+    // });
+    const { data, error } = await this.supabase
+  .from('chat')
+  .insert([
+    { message: msg , user: this.supabase.auth.user().email },
+  ])
   }
   
-  async updateTodo(id, is_complete){
-    await this.supabase
-    .from(TODO_DB)
-    .update({is_complete})
-    .match({id});
-  }
-
-  handleTodosChanged(){
-    this.supabase.from(TODO_DB).on('*', payload => {
-      console.log('payload: ', payload);
-      if ( payload.eventType == 'DELETE'){
-        const oldItem: Todo = payload.old;
-        const newValue = this._todos.value.filter(item => oldItem.id != item.id);
-        this._todos.next(newValue);
-      }else if (payload.eventType == 'INSERT'){
-        const newItem: Todo = payload.new;
-        this._todos.next([...this._todos.value, newItem]);
-      }else if (payload.eventType == 'UPDATE'){
-        const updatedItem: Todo = payload.new;
-        const newValue = this._todos.value.map(item => {
-          if (updatedItem.id == item.id){
-            item = updatedItem;
-          }
-          return item;
-        })
-        this._todos.next(newValue);
-      }
-    }).subscribe();
-  }
-  
-  //exceptuar.
-  // async loadTodos(){
-  //   const query = await this.supabase.from(TODO_DB).select('*');
-  //     //console.log('carga:', query);
-  //     this._todos.next(query.data);
-  //   }
-  //   async addTodo(task: string){
-  //     const newTodo = {
-  //       user_id: this.supabase.auth.user().id,
-  //       task
-  //     };
-  //   }
-    async loadChats(){
+      async loadChats(){
       const query = await this.supabase.from(CHAT_DB).select('*');
         //console.log('chats cargados: ', query);
         this._chat.next(query.data);
@@ -173,23 +99,19 @@ export class SupabaseService {
       
       cambiosChat(){
         this.supabase.from(CHAT_DB).on('*', payload => {
-          console.log('payload: ', payload);
-          if ( payload.eventType == 'DELETE'){
-            const oldItem: Todo = payload.old;
-            const newValue = this._todos.value.filter(item => oldItem.id != item.id);
-            this._todos.next(newValue);
-          }else if (payload.eventType == 'INSERT'){
-            const newItem: Todo = payload.new;
-            this._todos.next([...this._todos.value, newItem]);
+          console.log('cambios: ', payload);
+          if (payload.eventType == 'INSERT'){
+            const newItem: Chat = payload.new;
+            this._chat.next([...this._chat.value, newItem]);
           }else if (payload.eventType == 'UPDATE'){
-            const updatedItem: Todo = payload.new;
-            const newValue = this._todos.value.map(item => {
+            const updatedItem: Chat = payload.new;
+            const newValue = this._chat.value.map(item => {
               if (updatedItem.id == item.id){
                 item = updatedItem;
               }
               return item;
             })
-            this._todos.next(newValue);
+            this._chat.next(newValue);
           }
         }).subscribe();
       }

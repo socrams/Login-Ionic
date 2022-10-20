@@ -18,22 +18,30 @@ export class Chat1Page implements OnInit {
   }
 
   async enviarMessage() {
-    this.supabaseService.addMessage(this.message);
+    const { data, error } = await this.supabaseService.supabase
+    .from('chat')
+    .insert([
+      { message: this.message , user: this.supabaseService.supabase.auth.user().email },
+    ])
+    //this.supabaseService.addMessage(this.message);
     this.message = '';
   }
+
   ngOnInit():void{
-    this.leerChat();
+    this.supabaseService.cambiosChat();
   }
 
-  leerChat() {
-    const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
-     const chat = supabase
-  .from('chat')
-  .on('*', payload => {
-    console.log('Change received!', payload)
-  })
-  .subscribe()
-    }
+  // leerChat() {
+  //   const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+  //    const chat = supabase
+  // .from('chat')
+  // .on('*', payload => {
+  //   console.log('Change received!', payload)
+  // })
+  // .subscribe()
+  // console.log('hola');
+  //   }
+    
   }
       // const supabase= this.supabaseService.supabase;
       // const user = supabase.auth.user();
