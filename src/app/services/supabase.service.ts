@@ -40,10 +40,10 @@ export class SupabaseService {
     });
     this.supabase.auth.onAuthStateChange(( event,session )=>{
       // console.log('event ',event);
-      console.log('session: ', session);
+      //console.log('session login: ', session);
       if (event == 'SIGNED_IN'){
         this._currentUser.next(session.user);
-        this.loadTodos();//carga basede datoss
+        //this.loadTodos();//carga basede datoss
         this.loadChats();
         this.handleTodosChanged(); //
       }else{
@@ -92,25 +92,25 @@ export class SupabaseService {
   }
   
   
-  async cargarMsg(){
-    const query = await this.supabase.from(CHAT_DB).select('*');
-    console.log('query: ', query);
-    this._chat.next(query.data);
-  }
+  // async cargarMsg(){
+  //   const query = await this.supabase.from(CHAT_DB).select('*');
+  //   console.log('query: ', query);
+  //   this._chat.next(query.data);
+  // }
 
-  async cargarMessages(){
-    const query = await this.supabase
-    .from(CHAT_DB).select('*');
-        console.log('query: ', query);
-        this._chat.next(query.data);
-      }
+  // async cargarMessages(){
+  //   const query = await this.supabase
+  //   .from(CHAT_DB).select('*');
+  //       console.log('query: ', query);
+  //       this._chat.next(query.data);
+  //     }
 
       
       
   async addMessage(message: string){
     await this.supabase
     .from(CHAT_DB)
-    .insert([ {
+    .insert( [ {
       message:message, 
       user: this.supabase.auth.user().email
     }]);
@@ -154,20 +154,20 @@ export class SupabaseService {
   }
   
   //exceptuar.
-  async loadTodos(){
-    const query = await this.supabase.from(TODO_DB).select('*');
-      console.log('query: ', query);
-      this._todos.next(query.data);
-    }
-    async addTodo(task: string){
-      const newTodo = {
-        user_id: this.supabase.auth.user().id,
-        task
-      };
-    }
+  // async loadTodos(){
+  //   const query = await this.supabase.from(TODO_DB).select('*');
+  //     //console.log('carga:', query);
+  //     this._todos.next(query.data);
+  //   }
+  //   async addTodo(task: string){
+  //     const newTodo = {
+  //       user_id: this.supabase.auth.user().id,
+  //       task
+  //     };
+  //   }
     async loadChats(){
       const query = await this.supabase.from(CHAT_DB).select('*');
-        console.log('query: ', query);
+        //console.log('chats cargados: ', query);
         this._chat.next(query.data);
       }
       

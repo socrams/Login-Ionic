@@ -15,11 +15,7 @@ const routes: Routes = [
     path: 'registrar',
     loadChildren: () => import('./pages/registrar/registrar.module').then( m => m.RegistrarPageModule)
   },
-  {
-    path: 'list',
-    loadChildren: () => import('./pages/list/list.module').then( m => m.ListPageModule)
-    , canLoad : [AuthGuard]  
-  },
+
   {
     path: 'chat',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)

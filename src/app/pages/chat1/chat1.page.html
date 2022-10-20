@@ -7,14 +7,17 @@
 <!--  -->
 <ion-content class="content-stable">
   <div *ngFor="let chat of chats | async" ng-class="{usuario: chat.user}" class="messages">
+
       <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
         <span>{{chat.user}}: {{chat.message}}</span>
       </div>
+
       <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">
         {{chat.created_at | date:'short' }}
       </div>
-    </div>
-  <!-- </div> -->
+
+  </div>
+  <!--  -->
 </ion-content>
 
 <ion-footer>
@@ -23,6 +26,7 @@
     <ion-label></ion-label>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     <ion-input placeholder="mensaje" [(ngModel)]="message"></ion-input>
     <ion-button type="submit" (click)="enviarMessage()">Enviar</ion-button>
+    <ion-button type="submit" (click)="leerChat()">leer</ion-button>
   
   </ion-item>
 </ion-footer>
