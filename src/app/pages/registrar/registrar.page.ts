@@ -27,8 +27,8 @@ export class RegistrarPage implements OnInit {
     this.credenciales2 = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      // age: ['',[Validators.required]],
-      // name: ['',[Validators.required]],
+      apellido: ['',[Validators.required]],
+      name: ['',[Validators.required]],
     });  
   }
 

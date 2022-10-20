@@ -1,8 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from 'src/app/services/supabase.service';
-import { environment } from 'src/environments/environment';
-import { LoginPage } from '../login/login.page';
 
 @Component({
   selector: 'app-chat1',
@@ -27,12 +25,11 @@ constructor(
     this.message='';
   }
   ngOnInit():void {
-    setTimeout(this.tiempo,1000)
+    // setTimeout(this.tiempo,1000)
   }
   
   tiempo() {
-    
-    }
+  }
   
 }
 //   const user = supabase.auth.user();

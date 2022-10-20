@@ -6,63 +6,63 @@
 
 <!--  -->
 <ion-content class="content-stable">
-  <div *ngIf="this.valor">
-    <div *ngFor="let chat of chats | async"  ng-class="{usuario: chat.user}" class="messages">
-      <div class="message" 
-      ng-class="{'slide-right': hideTime, '': !hideTime}">
-      <span>{{chat.user}}: {{chat.message}}</span>
-    </div>
-    <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">
-      {{chat.created_at | date:'short' }}
-    </div>
-  </div>
-</div>
-  <!-- 
-    <div *ngFor="let chat of chats | async" ng-class="style">
-    <div >{{chat.user}}:
-      <span ng-model="style" >{{chat.message}}</span>
-    </div>
-    <div>
-      {{chat.created_at | date:'short' }}
-    </div>
-  </div>
-  <div>
-    <p *ngFor="let chat of chats| async" class=" message">x
-      <span>{{chat.message}}</span>
-    </p>
-    <input type="text" [(ngModel)]="style"
-    placeholder="Type: bold strike red" aria-label="Type: bold strike red">
-    
-  </div> -->
-
-
-  <!-- <ion-list>
-      <ion-item-sliding *ngFor="let chat of chats | async">
-        <ion-item>
-          <div>
-            
-          <div>
-            <ion-label class="messages">
-              <span class="message">{{chat.user}}: {{chat.message}}</span>
-              <p class="time">{{chat.created_at | date:'short' }}</p>
-            </ion-label>
-          </div>
-          <div>
-            <ion-label class="messages other">
-              <span class="message slide-right">{{chat.user}}: {{chat.message}}</span>
-              <p>{{chat.created_at | date:'short' }}</p>
-            </ion-label>
-          </div>
+  <div *ngFor="let chat of chats | async" ng-class="{usuario: chat.user}" class="messages">
+      <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
+        <span>{{chat.user}}: {{chat.message}}</span>
       </div>
-        </ion-item>
-      </ion-item-sliding>
-  </ion-list> -->
+      <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">
+        {{chat.created_at | date:'short' }}
+      </div>
+    </div>
+  <!-- </div> -->
 </ion-content>
-<!-- --- -->
+
 <ion-footer>
-  <ion-item>
-    <ion-label></ion-label>
+  <ion-item>         
+  
+    <ion-label></ion-label>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     <ion-input placeholder="mensaje" [(ngModel)]="message"></ion-input>
     <ion-button type="submit" (click)="enviarMessage()">Enviar</ion-button>
+  
   </ion-item>
 </ion-footer>
+<!-- 
+  <div *ngFor="let chat of chats | async" ng-class="style">
+  <div >{{chat.user}}:
+    <span ng-model="style" >{{chat.message}}</span>
+  </div>
+  <div>
+    {{chat.created_at | date:'short' }}
+  </div>
+</div>
+<div>
+  <p *ngFor="let chat of chats| async" class=" message">x
+    <span>{{chat.message}}</span>
+  </p>
+  <input type="text" [(ngModel)]="style"
+  placeholder="Type: bold strike red" aria-label="Type: bold strike red">
+  
+</div> -->
+
+
+<!-- <ion-list>
+    <ion-item-sliding *ngFor="let chat of chats | async">
+      <ion-item>
+        <div>
+          
+        <div>
+          <ion-label class="messages">
+            <span class="message">{{chat.user}}: {{chat.message}}</span>
+            <p class="time">{{chat.created_at | date:'short' }}</p>
+          </ion-label>
+        </div>
+        <div>
+          <ion-label class="messages other">
+            <span class="message slide-right">{{chat.user}}: {{chat.message}}</span>
+            <p>{{chat.created_at | date:'short' }}</p>
+          </ion-label>
+        </div>
+    </div>
+      </ion-item>
+    </ion-item-sliding>
+</ion-list> -->

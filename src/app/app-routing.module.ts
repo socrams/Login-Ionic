@@ -19,7 +19,8 @@ const routes: Routes = [
     path: 'list',
     loadChildren: () => import('./pages/list/list.module').then( m => m.ListPageModule)
     , canLoad : [AuthGuard]  
-  },  {
+  },
+  {
     path: 'chat',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   },
@@ -28,13 +29,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/chat1/chat1.module').then( m => m.Chat1PageModule)
   },
 
-  
-  // {
-  //   path: '',
-  //   redirectTo: 'login',
-  //   pathMatch: 'full'
-  // },
-  
 ];
 
 @NgModule({
