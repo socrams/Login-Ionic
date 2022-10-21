@@ -77,45 +77,30 @@ export class SupabaseService {
     return this._chat.asObservable();
   }
       
-  async addMessage(msg: string){
-    // await this.supabase
-    // .from('chat')
-    // .insert({
-    //   message:message, 
-    //   user: this.supabase.auth.user().email
-    // });
-    const { data, error } = await this.supabase
-  .from('chat')
-  .insert([
-    { message: msg , user: this.supabase.auth.user().email },
-  ])
+  async loadChats(){
+    const query = await this.supabase.from(CHAT_DB).select('*');
+    this._chat.next(query.data);
   }
-  
-      async loadChats(){
-      const query = await this.supabase.from(CHAT_DB).select('*');
-        //console.log('chats cargados: ', query);
-        this._chat.next(query.data);
-      }
       
-      cambiosChat(){
-        this.supabase.from(CHAT_DB).on('*', payload => {
-          console.log('cambios: ', payload);
-          if (payload.eventType == 'INSERT'){
-            const newItem: Chat = payload.new;
-            this._chat.next([...this._chat.value, newItem]);
-          }else if (payload.eventType == 'UPDATE'){
-            const updatedItem: Chat = payload.new;
-            const newValue = this._chat.value.map(item => {
-              if (updatedItem.id == item.id){
-                item = updatedItem;
-              }
-              return item;
-            })
-            this._chat.next(newValue);
+  cambiosChat() {
+    this.supabase.from(CHAT_DB).on('*', payload => {
+      console.log('cambios: ', payload);
+      if (payload.eventType == 'INSERT') {
+        const newItem: Chat = payload.new;
+        this._chat.next([...this._chat.value, newItem]);
+      } else if (payload.eventType == 'UPDATE') {
+        const updatedItem: Chat = payload.new;
+        const newValue = this._chat.value.map(item => {
+          if (updatedItem.id == item.id) {
+            item = updatedItem;
           }
-        }).subscribe();
+          return item;
+        })
+        this._chat.next(newValue);
       }
-      
+    }).subscribe();
+  }
+
   }
   
 

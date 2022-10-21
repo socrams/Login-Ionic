@@ -14,17 +14,16 @@ export class Chat1Page implements OnInit {
   conversacion: string = '';
   chats = this.supabaseService.chat;
 
-  constructor(private supabaseService: SupabaseService,) {
+  constructor(private supabaseService: SupabaseService) {
   }
   
   async enviarMessage() {
-    const supabase = createClient(environment.supabaseKey,environment.supabaseUrl)
-    supabase
+    const supabase = createClient(environment.supabaseUrl,environment.supabaseKey)
+   const {data, error } = await  supabase
     .from('chat')
-    .insert([
-      { message: this.message , user: this.supabaseService.supabase.auth.user().email },
-    ])
-    //this.supabaseService.addMessage(this.message);
+    .insert(
+      { message: this.message , user: supabase.auth.user().email },
+    )
     this.message = '';
   }
 
@@ -33,15 +32,17 @@ export class Chat1Page implements OnInit {
   }
 
   leerChat() {
-    const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+    const supabase = createClient(environment.supabaseUrl,environment.supabaseKey)
     const chat1= supabase
-  .from('chat')
-  .on('*', payload => {
-    console.log ('Change received!', payload)
-  })
-  .subscribe()
-  console.log('hola');
-    }
+    .from('chat')
+    .on('*', payload => {
+      console.log ('Change received!', payload)
+    })
+    .subscribe()
+    this.supabaseService.chat; 
+    
+    
+  }
     
   }
       // const supabase= this.supabaseService.supabase;
