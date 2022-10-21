@@ -13,7 +13,7 @@ export class Chat1Page implements OnInit {
   message: string;
   conversacion: string = '';
   chats = this.supabaseService.chat;
-
+  hideTime= true;
   constructor(private supabaseService: SupabaseService) {
   }
   

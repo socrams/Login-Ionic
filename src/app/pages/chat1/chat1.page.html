@@ -1,16 +1,39 @@
 
 <ion-header>
-  <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
-  <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
-  
   <ion-toolbar>
     <ion-title>Chat-Ionic</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <!--  -->
-<ion-content class="content-stable">
- 
+<ion-content class="content-stable"
+on-swipe-left="hideTime = false" 
+on-swipe-right="hideTime = true"
+>
+
+  <div *ngFor="let chat of chats | async" 
+  ng-class="" 
+  class="messages">
+
+      <div class="message" 
+      [ngClass]="chat.user ===  ? 'message me' : 'message'"
+      >
+        <span>{{chat.user}}: {{chat.message}}</span>
+      </div>
+
+      <div class="time" 
+      ng-class=""
+      >
+        {{chat.created_at | date:'short' }}
+      </div>
+
+  </div>
+  <!--  -->
+</ion-content>
+
+<!-- 
+  <ion-content class="content-stable">
+
   <div *ngFor="let chat of chats | async" ng-class="{usuario: chat.user}" class="messages">
 
       <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
@@ -22,9 +45,8 @@
       </div>
 
   </div>
-  <!--  -->
-</ion-content>
-
+</ion-content> 
+-->
 <ion-footer>
   <ion-item>         
   
