@@ -76,13 +76,13 @@ export class SupabaseService {
   get chat(): Observable <Chat[] > {
     return this._chat.asObservable();
   }
-      
+
   async loadChats(){
     const query = await this.supabase.from(CHAT_DB).select('*');
     this._chat.next(query.data);
   }
-      
-  cambiosChat() {
+
+  cambiosChat() { //quitar evento update y delete.
     this.supabase.from(CHAT_DB).on('*', payload => {
       console.log('cambios: ', payload);
       if (payload.eventType == 'INSERT') {
@@ -101,13 +101,4 @@ export class SupabaseService {
     }).subscribe();
   }
 
-  }
-  
-
-
-  // async addTodo(task: string){
-  //   const newTodo = {
-  //     user_id: this.supabase.auth.user().id,
-  //     task
-  //   };
-  // }
+}
