@@ -19,7 +19,7 @@ export class Chat1Page implements OnInit {
   
   async enviarMessage() {
     const supabase = createClient(environment.supabaseUrl,environment.supabaseKey)
-   const {data, error } = await  supabase
+  const {data, error } = await  supabase
     .from('chat')
     .insert(
       { message: this.message , user: supabase.auth.user().email },
