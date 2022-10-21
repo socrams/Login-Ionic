@@ -1,4 +1,8 @@
+
 <ion-header>
+  <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+  <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+  
   <ion-toolbar>
     <ion-title>Chat-Ionic</ion-title>
   </ion-toolbar>
@@ -6,6 +10,7 @@
 
 <!--  -->
 <ion-content class="content-stable">
+ 
   <div *ngFor="let chat of chats | async" ng-class="{usuario: chat.user}" class="messages">
 
       <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">

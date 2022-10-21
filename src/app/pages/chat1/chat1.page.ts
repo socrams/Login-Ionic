@@ -28,21 +28,20 @@ export class Chat1Page implements OnInit {
   }
 
   ngOnInit():void{
-    this.leerChat();
   }
 
-  leerChat() {
-    const supabase = createClient(environment.supabaseUrl,environment.supabaseKey)
-    const chat1= supabase
-    .from('chat')
-    .on('*', payload => {
-      console.log ('Change received!', payload)
-    })
-    .subscribe()
-    this.supabaseService.chat; 
+  // leerChat() {
+  //   const supabase = createClient(environment.supabaseUrl,environment.supabaseKey)
+  //   const chat1= supabase
+  //   .from('chat')
+  //   .on('*', payload => {
+  //     console.log ('Change received!', payload)
+  //   })
+  //   .subscribe()
+  //   this.supabaseService.chat; 
     
     
-  }
+  // }
     
   }
       // const supabase= this.supabaseService.supabase;
