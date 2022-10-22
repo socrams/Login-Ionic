@@ -9,6 +9,7 @@
     <ion-title>Chat-Ionic</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content class="ion-padding" >
   <ion-row *ngFor="let chat of chats | async">
     <ion-col size="10" *ngIf="chat.user === this.mailLocal" 
