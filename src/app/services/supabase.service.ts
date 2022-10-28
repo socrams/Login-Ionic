@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router, Routes } from '@angular/router';
-import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
+import { createClient, SupabaseClient, User
+} from '@supabase/supabase-js';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 const CHAT_DB = 'chat';
-
-
 
 export interface Chat {
   id: number;
@@ -23,7 +22,6 @@ export class SupabaseService {
 
   supabase:SupabaseClient;
   private _currentUser: BehaviorSubject<any> = new BehaviorSubject (null);
-  private _todos: BehaviorSubject<any> = new BehaviorSubject ([]);
   private _chat: BehaviorSubject<any> = new BehaviorSubject ([]);
 
   constructor(public router:Router) {
@@ -50,7 +48,7 @@ export class SupabaseService {
     this.router.navigateByUrl('/');
   }
 
-  async registrarUsuario(credenciales: {email, password} ){
+  async registrarUsuario(credenciales: {email: any, password: any, nombre:any, apellido:any }){
 
     return new Promise ( async (resolve, reject) => {
       const { error, session } = await this.supabase.auth.signUp(credenciales)
@@ -58,6 +56,7 @@ export class SupabaseService {
         reject ( error );
       }else{
         resolve ( session );
+        this.datosUsuario(credenciales);
       }
       });
     }
@@ -80,6 +79,15 @@ export class SupabaseService {
   async loadChats(){
     const query = await this.supabase.from(CHAT_DB).select('*');
     this._chat.next(query.data);
+  }
+
+  async datosUsuario(credenciales:{email:any, nombre:any, apellido:any}){      
+    const supabase =  createClient(environment.supabaseUrl, environment.supabaseKey);
+    const { error } = await this.supabase
+    .from('profiles')
+    .insert([
+      { nombre: credenciales.nombre,apellido: credenciales.apellido, mail:credenciales.email},
+    ])  
   }
 
   cambiosChat() { //quitar evento update y delete.

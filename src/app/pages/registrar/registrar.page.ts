@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { SupabaseService } from 'src/app/services/supabase.service';
 
+
+
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.page.html',
@@ -18,9 +20,6 @@ export class RegistrarPage implements OnInit {
     private supabaseService: SupabaseService,
     private alertController: AlertController,
     private fb: FormBuilder,
-
-    // public usuario: Usuario,
-
     ) { }
   
   ngOnInit() {
